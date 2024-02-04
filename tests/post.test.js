@@ -75,6 +75,9 @@ describe('Post controller', () => {
         });
     });
 
+    /*
+    TODO: Implement the test for the update and findPost methods of the PostController
+    */
     describe('update', () => {
 
     });
