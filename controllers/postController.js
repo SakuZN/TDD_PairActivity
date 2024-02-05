@@ -51,3 +51,8 @@ exports.getPost = (req, res) => {
     res.render('singlepost', { pageTitle: post.title, post: post.toObject()});
   });
 }
+
+//TODO: Delete post controller function
+exports.deletePost = (req, res) => {
+
+}

@@ -20,4 +20,7 @@ router.get('/:id', isPrivate, postController.getPost);
 
 router.post('/add', postController.addPost);
 
+//TODO: Delete post route
+//router...
+
 module.exports = router;

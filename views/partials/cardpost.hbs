@@ -5,9 +5,14 @@
       <p>{{preview content}}</p>
       <br />
       <p class="caption">Posted on {{dateFormat date}}</p>
+        {{> messages}}
     </div>
     <div class="card-action">
       <a href="/posts/{{_id}}" class="amber-text text-darken-4">READ MORE</a>
+        <!-- Delete Button -->
+      <a href="/posts/delete/{{_id}}" class="btn-floating btn-large waves-effect waves-light red">
+          Delete Post
+      </a>
     </div>
   </div>
 </div>

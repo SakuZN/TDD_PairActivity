@@ -32,3 +32,8 @@ exports.getByUser = (user, next) => {
     next(err, posts);
   });
 };
+
+//TODO: Deleting a post based on ID
+exports.deleteById = function(id, next) {
+
+};
