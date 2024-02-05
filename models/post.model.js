@@ -17,3 +17,8 @@ exports.createPost = (obj, next) => {
         next(err, post)
     }) 
 }
+
+// TODO: Implement the findIDPost function
+exports.findIDPost = (id, next) => {
+
+};

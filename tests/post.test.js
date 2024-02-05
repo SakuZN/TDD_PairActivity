@@ -6,9 +6,9 @@ describe('Post controller', () => {
     // Setup the responses
     let req = {
         body: {
-            author: 'stswenguser',
             title: 'My first test post',
-            content: 'Random content'
+            content: 'Random content',
+            author: 'stswenguser'
         }
     };
 
@@ -17,7 +17,6 @@ describe('Post controller', () => {
     let res = {};
 
     let expectedResult;
-
     
     describe('create', () => {
         var createPostStub;
@@ -76,7 +75,7 @@ describe('Post controller', () => {
     });
 
     /*
-    TODO: Implement the test for the update and findPost methods of the PostController
+    TODO: Implement the test for the update method of the PostController
     */
     describe('update', () => {
 
@@ -84,5 +83,69 @@ describe('Post controller', () => {
 
     describe('findPost', () => {
 
+        var findPostStub;
+
+        beforeEach(() => {
+            // before every test case setup first
+            res = {
+                json: sinon.spy(),
+                status: sinon.stub().returns({ end: sinon.spy() })
+            };
+        });
+
+        afterEach(() => {
+            // executed after the test case
+            findPostStub.restore();
+        });
+
+        it('should return the post object given the id', () => {
+            // Arrange
+            const postID = '507asdghajsdhjgasd';
+            expectedResult = {
+                _id: postID,
+                title: 'My first test post',
+                content: 'Random content',
+                author: 'stswenguser',
+            };
+
+            req = {
+                params: {
+                    id: postID
+                }
+            };
+
+            findPostStub = sinon.stub(PostModel, 'findIDPost').yields(null, expectedResult);
+
+            // Act
+            PostController.findPost(req, res);
+
+            // Assert
+            sinon.assert.calledWith(PostModel.findIDPost, req.params.id);
+            sinon.assert.calledWith(res.json, sinon.match({ _id: postID }));
+            sinon.assert.calledWith(res.json, sinon.match({ title: expectedResult.title }));
+            sinon.assert.calledWith(res.json, sinon.match({ content: expectedResult.content }));
+            sinon.assert.calledWith(res.json, sinon.match({ author: expectedResult.author }));
+        });
+
+        //Error Scenario
+        it('should return status 500 on server error', () => {
+            // Arrange
+            const postID = '507asdghajsdhjgasd';
+            req = {
+                params: {
+                    id: postID
+                }
+            };
+
+            findPostStub = sinon.stub(PostModel, 'findIDPost').yields(error);
+
+            // Act
+            PostController.findPost(req, res);
+
+            // Assert
+            sinon.assert.calledWith(PostModel.findIDPost, req.params.id);
+            sinon.assert.calledWith(res.status, 500);
+            sinon.assert.calledOnce(res.status(500).end);
+        });
     })
 });
