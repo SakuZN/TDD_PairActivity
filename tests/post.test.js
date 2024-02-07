@@ -73,13 +73,65 @@ describe('Post controller', () => {
             sinon.assert.calledOnce(res.status(500).end);
         });
     });
+    // ==================================== END OF CREATE TEST CASE
 
-    /*
-    TODO: Implement the test for the update method of the PostController
-    */
     describe('update', () => {
+        var updatePostStub;
 
+        beforeEach(() => {
+            // before every test case setup first
+            res = {
+                json: sinon.spy(),
+                status: sinon.stub().returns({ end: sinon.spy() })
+            };
+        });
+
+        afterEach(() => {
+            // executed after the test case
+            updatePostStub.restore();
+        });
+
+
+        it('should return the updated post object', () => {
+            // Arrange
+            expectedResult = {
+                _id: '507asdghajsdhjgasd',
+                title: 'My first test post',
+                content: 'Random content',
+                author: 'stswenguser',
+                date: Date.now()
+            };
+
+            createPostStub = sinon.stub(PostModel, 'update').yields(null, !expectedResult);
+
+            // Act
+            PostController.create(req, res);
+
+            // Assert
+            sinon.assert.calledWith(PostModel.createPost, req.body);
+            sinon.assert.calledWith(res.json, sinon.match({ title: req.body.title }));
+            sinon.assert.calledWith(res.json, sinon.match({ content: req.body.content }));
+            sinon.assert.calledWith(res.json, sinon.match({ author: req.body.author }));
+
+        });
+
+
+        // Error Scenario
+        it('should return status 500 on server error', () => {
+            // Arrange
+            createPostStub = sinon.stub(PostModel, 'update').yields(error);
+
+            // Act
+            PostController.create(req, res);
+
+            // Assert
+            sinon.assert.calledWith(PostModel.update, req.body);
+            sinon.assert.calledWith(res.status, 500);
+            sinon.assert.calledOnce(res.status(500).end);
+        });
     });
+
+    // ==================================== END OF UPDATE TEST CASE
 
     describe('findPost', () => {
 

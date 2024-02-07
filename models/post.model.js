@@ -20,5 +20,10 @@ exports.createPost = (obj, next) => {
 
 // TODO: Implement the findIDPost function
 exports.findIDPost = (id, next) => {
-
+    Post.find({"_id": id});
 };
+
+// TO DO: Implement the UPDATE FUNCTION
+exports.update = (obj, next) => {
+
+}

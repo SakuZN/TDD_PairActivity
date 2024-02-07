@@ -12,13 +12,20 @@ PostController.create = (req, res) => {
 
 };
 
+// TODO: Implement the update server method
 PostController.update = (req, res) => {
 
 };
 
 // TODO: Implement the findPost server method
 PostController.findPost = (req, res) => {
-
+    return PostModel.findIDPost(req.params.id, (err, post) => {
+        if (err) {
+            return res.status(500).end();
+        } else {
+            return res.json(post);
+        }
+    });
 };
 
 PostController.getAllPosts = (req, res) => {
