@@ -23,7 +23,11 @@ exports.findIDPost = (id, next) => {
     Post.find({"_id": id});
 };
 
-// TO DO: Implement the UPDATE FUNCTION
+// TODO: Implement the UPDATE FUNCTION
 exports.update = (obj, next) => {
+    Post.findByIdAndUpdate(obj._id, obj, {new: true}, function(err, post) {
+        next(err, post);
+    }
+    );
 
 }

@@ -102,16 +102,16 @@ describe('Post controller', () => {
                 date: Date.now()
             };
 
-            createPostStub = sinon.stub(PostModel, 'update').yields(null, !expectedResult);
+            updatePostStub = sinon.stub(PostModel, 'update').yields(null, expectedResult);
 
             // Act
-            PostController.create(req, res);
+            PostController.update(req, res);
 
             // Assert
-            sinon.assert.calledWith(PostModel.createPost, req.body);
-            sinon.assert.calledWith(res.json, sinon.match({ title: req.body.title }));
-            sinon.assert.calledWith(res.json, sinon.match({ content: req.body.content }));
-            sinon.assert.calledWith(res.json, sinon.match({ author: req.body.author }));
+            sinon.assert.calledWith(PostModel.update, req.body);
+            sinon.assert.calledWith(res.json, sinon.match({ title: expectedResult.title }));
+            sinon.assert.calledWith(res.json, sinon.match({ content: expectedResult.content }));
+            sinon.assert.calledWith(res.json, sinon.match({ author: expectedResult.author }));
 
         });
 
@@ -119,10 +119,10 @@ describe('Post controller', () => {
         // Error Scenario
         it('should return status 500 on server error', () => {
             // Arrange
-            createPostStub = sinon.stub(PostModel, 'update').yields(error);
+            updatePostStub = sinon.stub(PostModel, 'update').yields(error);
 
             // Act
-            PostController.create(req, res);
+            PostController.update(req, res);
 
             // Assert
             sinon.assert.calledWith(PostModel.update, req.body);
